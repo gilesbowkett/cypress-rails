@@ -56,19 +56,7 @@ module CypressRails
     end
 
     def gather_connections
-      setup_shared_connection_pool
-
       ActiveRecord::Base.connection_handler.connection_pool_list.map(&:connection)
-    end
-
-    # Shares the writing connection pool with connections on
-    # other handlers.
-    #
-    # In an application with a primary and replica the test fixtures
-    # need to share a connection pool so that the reading connection
-    # can see data in the open transaction on the writing connection.
-    def setup_shared_connection_pool
-      ActiveRecord::TestFixtures.instance_method(:setup_shared_connection_pool).bind(self).call
     end
   end
 end
